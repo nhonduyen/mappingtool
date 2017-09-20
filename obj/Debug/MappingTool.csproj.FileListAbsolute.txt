@@ -1,0 +1,9 @@
+D:\Duyen\Project\App\MappingTool\MappingTool\bin\Debug\MappingTool.exe.config
+D:\Duyen\Project\App\MappingTool\MappingTool\bin\Debug\MappingTool.exe
+D:\Duyen\Project\App\MappingTool\MappingTool\bin\Debug\MappingTool.pdb
+D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.csprojResolveAssemblyReference.cache
+D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.Properties.Resources.resources
+D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.csproj.GenerateResource.Cache
+D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.exe
+D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.pdb
+D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.Form1.resources
