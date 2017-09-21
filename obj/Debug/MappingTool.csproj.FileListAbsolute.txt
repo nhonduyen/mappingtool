@@ -7,3 +7,5 @@ D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.csproj.Genera
 D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.exe
 D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.pdb
 D:\Duyen\Project\App\MappingTool\MappingTool\obj\Debug\MappingTool.Form1.resources
+D:\Duyen\Project\App\MappingTool\MappingTool\bin\Debug\Dapper.dll
+D:\Duyen\Project\App\MappingTool\MappingTool\bin\Debug\Dapper.xml

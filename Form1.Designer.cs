@@ -48,6 +48,7 @@
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtNamespace = new System.Windows.Forms.TextBox();
+            this.btnDapper = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -166,9 +167,8 @@
             this.lblLink.AutoSize = true;
             this.lblLink.Location = new System.Drawing.Point(16, 269);
             this.lblLink.Name = "lblLink";
-            this.lblLink.Size = new System.Drawing.Size(48, 13);
+            this.lblLink.Size = new System.Drawing.Size(0, 13);
             this.lblLink.TabIndex = 12;
-            this.lblLink.Text = "Location";
             // 
             // btnMap
             // 
@@ -221,11 +221,22 @@
             this.txtNamespace.Size = new System.Drawing.Size(140, 20);
             this.txtNamespace.TabIndex = 18;
             // 
+            // btnDapper
+            // 
+            this.btnDapper.Location = new System.Drawing.Point(115, 307);
+            this.btnDapper.Name = "btnDapper";
+            this.btnDapper.Size = new System.Drawing.Size(75, 23);
+            this.btnDapper.TabIndex = 19;
+            this.btnDapper.Text = "Map Dapper";
+            this.btnDapper.UseVisualStyleBackColor = true;
+            this.btnDapper.Click += new System.EventHandler(this.btnDapper_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(272, 416);
+            this.Controls.Add(this.btnDapper);
             this.Controls.Add(this.txtNamespace);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtUsername);
@@ -275,6 +286,7 @@
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtNamespace;
+        private System.Windows.Forms.Button btnDapper;
     }
 }
 
