@@ -32,7 +32,7 @@ namespace MappingTool
             }
             insert = insert.Remove(insert.Length - 1) + ") VALUES(" + tempInsert.Remove(tempInsert.Length - 1) + ")";
 
-            string insertFunc = "        public int Insert(" + parameter.Remove(parameter.Length - 1) + ")" + System.Environment.NewLine;
+            string insertFunc = "        public virtual int Insert(" + parameter.Remove(parameter.Length - 1) + ")" + System.Environment.NewLine;
             insertFunc += "        {" + System.Environment.NewLine;
             insertFunc += "            var sql = \"" + insert.Remove(insert.Length - 1) + ")\";" + System.Environment.NewLine;
             insertFunc += "            return DBManager<"+table+">.Execute(sql, "+parameter1.Remove(parameter1.Length-1)+"});" + System.Environment.NewLine;
@@ -59,7 +59,7 @@ namespace MappingTool
             }
             update = update.Remove(update.Length - 1) + " WHERE ID=@ID\"";
 
-            string UpdateFunc = "        public int Update(" + parameter.Remove(parameter.Length - 2) + ")" + System.Environment.NewLine;
+            string UpdateFunc = "        public virtual int Update(" + parameter.Remove(parameter.Length - 2) + ")" + System.Environment.NewLine;
             UpdateFunc += "        {" + System.Environment.NewLine;
             UpdateFunc += "            var sql = \"" + update + ";" + System.Environment.NewLine;
             UpdateFunc += System.Environment.NewLine;
@@ -69,10 +69,12 @@ namespace MappingTool
         }
         public string MakeDeleteFunc(string table)
         {
-            var del = "DELETE FROM " + table + " WHERE ID=@ID";
-            string deleteFunc = "        public int Delete(int ID)" + System.Environment.NewLine;
+            var del = "DELETE FROM " + table;
+            string deleteFunc = "        public virtual int Delete(int ID=0)" + System.Environment.NewLine;
             deleteFunc += "        {" + System.Environment.NewLine;
-            deleteFunc += "            var sql = \"" + del + ";\";" + System.Environment.NewLine;
+            deleteFunc += "            var sql = \"" + del + " \";" + System.Environment.NewLine;
+            deleteFunc += "            if (ID == 0) return DBManager<" + table + ">.Execute(sql);" + System.Environment.NewLine;
+            deleteFunc += "            sql += \" WHERE ID=@ID \";" + System.Environment.NewLine;
             deleteFunc += "            return DBManager<" + table + ">.Execute(sql, new { ID = ID });" + System.Environment.NewLine;
             deleteFunc += "        }" + System.Environment.NewLine;
             return deleteFunc;
@@ -82,7 +84,7 @@ namespace MappingTool
         public string MakeSelectFunc(string table, string id = "")
         {
             var sel = "SELECT * FROM " + table;
-            string selectFunc = "        public List<" + table + "> Select(int ID=0)" + System.Environment.NewLine;
+            string selectFunc = "        public virtual List<" + table + "> Select(int ID=0)" + System.Environment.NewLine;
             selectFunc += "        {" + System.Environment.NewLine;
             selectFunc += "            var sql = \"" + sel + " \";" + System.Environment.NewLine;
             selectFunc += "            if (ID == 0) return DBManager<"+table+">.ExecuteReader(sql);" + System.Environment.NewLine;
@@ -99,7 +101,7 @@ namespace MappingTool
         {
             var sel = "SELECT * FROM(SELECT ROW_NUMBER() OVER (order by id) AS ROWNUM, * FROM " + table + ") as u  WHERE   RowNum >= @start   AND RowNum < @end ORDER BY RowNum";
 
-            string selectFunc = "        public List<" + table + "> SelectPaging(int start=0, int end=10)" + System.Environment.NewLine;
+            string selectFunc = "        public virtual List<" + table + "> SelectPaging(int start=0, int end=10)" + System.Environment.NewLine;
             selectFunc += "        {" + System.Environment.NewLine;
             selectFunc += "            var sql = \"" + sel + ";\";" + System.Environment.NewLine;
             selectFunc += System.Environment.NewLine;
@@ -112,8 +114,8 @@ namespace MappingTool
         public string MakeCountFunc(string table)
         {
             var sel = "SELECT COUNT(1) AS CNT FROM " + table;
-         
-            string selectFunc = "        public int GetCount()" + System.Environment.NewLine;
+
+            string selectFunc = "        public virtual int GetCount()" + System.Environment.NewLine;
             selectFunc += "        {" + System.Environment.NewLine;
             selectFunc += "            var sql = \"" + sel + ";\";" + System.Environment.NewLine;
 
