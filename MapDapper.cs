@@ -119,7 +119,7 @@ namespace MappingTool
             selectFunc += "        {" + System.Environment.NewLine;
             selectFunc += "            var sql = \"" + sel + ";\";" + System.Environment.NewLine;
 
-            selectFunc += "            return DBManager<" + table + ">.ExecuteScalar(sql);" + System.Environment.NewLine;
+            selectFunc += "            return (int) DBManager<" + table + ">.ExecuteScalar(sql);" + System.Environment.NewLine;
             selectFunc += "        }" + System.Environment.NewLine;
             return selectFunc;
 
@@ -142,6 +142,7 @@ namespace MappingTool
             UpdateFunc += "        {" + System.Environment.NewLine;
             UpdateFunc += content;
             UpdateFunc += "        }" + System.Environment.NewLine;
+            UpdateFunc += "        public " + table + "() { }" + System.Environment.NewLine;
             return UpdateFunc;
         }
     }
