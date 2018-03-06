@@ -37,6 +37,8 @@ namespace MappingTool
                 return "double";
             if (dataType.Contains("date"))
                 return "DateTime";
+            if (dataType.Contains("decimal"))
+                return "decimal";
             return "string";
         }
     }
