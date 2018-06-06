@@ -68,6 +68,23 @@ namespace MappingTool
             UpdateFunc += "        }" + System.Environment.NewLine;
             return UpdateFunc;
         }
+
+        public string MakeUpdate1Column(string table)
+        {
+           
+            var dictionary = "            Dictionary<string, object> param = new Dictionary<string, object>();" + System.Environment.NewLine;
+            dictionary += "            param.Add(@VALUE, VALUE);" + System.Environment.NewLine;
+           
+          
+            string UpdateFunc = "        public virtual int UpdateColumn(int ID, string COLUMN, string VALUE)" + System.Environment.NewLine;
+            UpdateFunc += "        {" + System.Environment.NewLine;
+            UpdateFunc += "            var sql =string.Format(@\"UPDATE "+table+" SET {0}=@VALUE WHERE ID=@ID\", COLUMN);" + System.Environment.NewLine;
+            UpdateFunc += dictionary + System.Environment.NewLine;
+            UpdateFunc += System.Environment.NewLine;
+            UpdateFunc += "            return mgrDataSQL.ExecuteNonQuery(sql, param);" + System.Environment.NewLine;
+            UpdateFunc += "        }" + System.Environment.NewLine;
+            return UpdateFunc;
+        }
         public string MakeDeleteFunc(string table)
         {
             var del = "DELETE FROM " + table ;

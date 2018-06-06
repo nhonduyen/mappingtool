@@ -68,6 +68,7 @@ namespace MappingTool
                 var selCountFunc = map.MakeCountFunc(tbname);
                 var insertFunc = map.MakeInsert(tbname, columns);
                 var updateFunc = map.MakeUpdateFunc(tbname, columns);
+                var update1 = map.MakeUpdate1Column(tbname);
                 var deleteFunc = map.MakeDeleteFunc(tbname);
                 foreach (DataRow col in columns.Rows)
                 {
@@ -90,6 +91,7 @@ namespace MappingTool
                 content += selCountFunc + System.Environment.NewLine;
                 content += insertFunc + System.Environment.NewLine;
                 content += updateFunc + System.Environment.NewLine;
+                content += update1 + System.Environment.NewLine;
                 content += deleteFunc + System.Environment.NewLine;
                 content += "\r\n    }" + System.Environment.NewLine;
                
@@ -152,6 +154,7 @@ namespace MappingTool
                 var insertFunc = map.MakeInsert(tbname, columns);
                 var updateFunc = map.MakeUpdateFunc(tbname, columns);
                 var deleteFunc = map.MakeDeleteFunc(tbname);
+                var update1 = map.MakeUpdate1Coulumn(tbname);
 
                 foreach (DataRow col in columns.Rows)
                 {
@@ -172,6 +175,7 @@ namespace MappingTool
                 content += selCountFunc + System.Environment.NewLine;
                 content += insertFunc + System.Environment.NewLine;
                 content += updateFunc + System.Environment.NewLine;
+                content += update1+ System.Environment.NewLine;
                 content += deleteFunc + System.Environment.NewLine;
                 content += "\r\n    }" + System.Environment.NewLine;
 

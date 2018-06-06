@@ -67,6 +67,16 @@ namespace MappingTool
             UpdateFunc += "        }" + System.Environment.NewLine;
             return UpdateFunc;
         }
+        public string MakeUpdate1Coulumn(string table)
+        {
+            string UpdateFunc = "        public virtual int UpdateColumn(int ID, string COLUMN, string VALUE)" + System.Environment.NewLine;
+            UpdateFunc += "        {" + System.Environment.NewLine;
+            UpdateFunc += "            var sql =string.Format(@\"UPDATE "+table+" SET {0}=@VALUE WHERE ID=@ID\", COLUMN);" + System.Environment.NewLine;
+            UpdateFunc += System.Environment.NewLine;
+            UpdateFunc += "            return DBManager<" + table + ">.Execute(sql, new { ID = ID, VALUE = VALUE });" + System.Environment.NewLine;
+            UpdateFunc += "        }" + System.Environment.NewLine;
+            return UpdateFunc;
+        }
         public string MakeDeleteFunc(string table)
         {
             var del = "DELETE FROM " + table;
