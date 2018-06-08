@@ -130,7 +130,8 @@ namespace MappingTool
             selectFunc += "        {" + System.Environment.NewLine;
             selectFunc += "            var sql = \"" + sel + ";\";" + System.Environment.NewLine;
 
-            selectFunc += "            return (int) MysqlManager<" + table + ">.ExecuteScalar(sql);" + System.Environment.NewLine;
+            selectFunc += "            var result = MysqlManager<" + table + ">.ExecuteScalar(sql);" + System.Environment.NewLine;
+            selectFunc += "            return  Convert.ToInt32(result);" + System.Environment.NewLine;
             selectFunc += "        }" + System.Environment.NewLine;
             return selectFunc;
 
