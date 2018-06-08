@@ -208,6 +208,90 @@ namespace MappingTool
             MessageBox.Show("Mapping done!");
         }
 
+        private void btnMysql_Click(object sender, EventArgs e)
+        {
+            var location = lblLink.Text;
+            var template = (r1.Checked) ? "../../Template/Form.cs" : "../../Template/Web.cs";
+            if (string.IsNullOrWhiteSpace(location))
+            {
+                MessageBox.Show("Please choose file path");
+                return;
+            }
+            MapMysql map = new MapMysql();
+            FileHandler filehandler = new FileHandler();
+            MysqlHandler db = new MysqlHandler();
+            string connectionString = mgrDataSQL.mysql;
+            if (string.Compare(txtDbName.Text.Trim(), "test") != 0)
+                connectionString = "Server=" + txtIp.Text + ";Database=" + txtDbName.Text + ";Uid=" + txtUsername.Text
+                    + ";Pwd=" + txtPassword.Text + ";";
+            List<string> tables = db.GetTableNames(txtDbName.Text, connectionString);
+            foreach (var tbname in tables)
+            {
+                string content = "public class " + tbname + "\n    {" + System.Environment.NewLine;
+                var columns = db.GetColumnsNames(txtDbName.Text, tbname, connectionString);
+
+                var constructor = map.MakeConstructor(tbname, columns);
+                var selFunc = map.MakeSelectFunc(tbname);
+
+                var selPagingFunc = map.MakeSelectPagingMysql(tbname);
+                var selCountFunc = map.MakeCountFunc(tbname);
+                var insertFunc = map.MakeInsert(tbname, columns);
+                var updateFunc = map.MakeUpdateFunc(tbname, columns);
+                var deleteFunc = map.MakeDeleteFunc(tbname);
+                var update1 = map.MakeUpdate1Coulumn(tbname);
+
+                foreach (var col in columns)
+                {
+
+                    var type = db.GetType(col.DATA_TYPE);
+                    content += "        public " + type + " " + col.COLUMN_NAME + " { get; set; }" + System.Environment.NewLine;
+                }
+
+                string strTemplate = filehandler.ReadFile(template);
+
+                strTemplate = strTemplate.Replace("MappingTool.Template", txtNamespace.Text);
+                content += System.Environment.NewLine;
+
+                content += constructor + System.Environment.NewLine;
+                content += selFunc + System.Environment.NewLine;
+
+                content += selPagingFunc + System.Environment.NewLine;
+                content += selCountFunc + System.Environment.NewLine;
+                content += insertFunc + System.Environment.NewLine;
+                content += updateFunc + System.Environment.NewLine;
+                content += update1 + System.Environment.NewLine;
+                content += deleteFunc + System.Environment.NewLine;
+                content += "\r\n    }" + System.Environment.NewLine;
+
+                if (r1.Checked)
+                {
+                    strTemplate = strTemplate.Replace("class Form{}", content);
+                }
+                else
+                {
+                    strTemplate = strTemplate.Replace("class Web{}", content);
+                }
+
+                if (filehandler.FileExist(location + "\\" + tbname + ".cs"))
+                {
+                    filehandler.DeleteFile(location + "\\" + tbname + ".cs");
+                }
+                try
+                {
+                    filehandler.WriteFile(strTemplate, location + "\\" + tbname + ".cs");
+                }
+                catch
+                {
+                    MessageBox.Show("Cannot open file");
+                    return;
+                }
+
+
+                txtResult.Text += "Mapping " + tbname + ".cs success" + System.Environment.NewLine;
+            }
+            MessageBox.Show("Mapping done!");
+        }
+
        
     }
 }

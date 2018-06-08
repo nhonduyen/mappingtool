@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using Dapper;
 
-
 namespace MappingTool
 {
-    public static class DBManager<TEntity> where TEntity : class
+    public static class MysqlManager<TEntity> where TEntity : class
     {
         private static readonly string connectionString =
-            ConfigurationManager.ConnectionStrings["cnnString"].ConnectionString;
+            ConfigurationManager.ConnectionStrings["mysql"].ConnectionString;
 
         public static IDbConnection GetOpenConnection()
         {
-            var factory = DbProviderFactories.GetFactory("System.Data.SqlClient");
+            var factory = DbProviderFactories.GetFactory("MySql.Data.MySqlClient");
             var connection = factory.CreateConnection();
             connection.ConnectionString = connectionString;
             connection.Open();
@@ -81,6 +81,5 @@ namespace MappingTool
                 return db.ExecuteScalar(sql, param, commandType: type);
             }
         }
-
     }
 }

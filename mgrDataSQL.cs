@@ -12,6 +12,7 @@ namespace MappingTool
     public class mgrDataSQL
     {
         public static string connStr = ConfigurationManager.ConnectionStrings["cnnString"].ConnectionString;
+        public static string mysql = ConfigurationManager.ConnectionStrings["mysql"].ConnectionString;
 
         public static DataTable ExecuteReader(string sql, Dictionary<string, object> param = null, string ConnectionString=null)
         {

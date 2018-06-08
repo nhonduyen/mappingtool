@@ -49,6 +49,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtNamespace = new System.Windows.Forms.TextBox();
             this.btnDapper = new System.Windows.Forms.Button();
+            this.btnMysql = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -223,7 +224,7 @@
             // 
             // btnDapper
             // 
-            this.btnDapper.Location = new System.Drawing.Point(115, 307);
+            this.btnDapper.Location = new System.Drawing.Point(100, 307);
             this.btnDapper.Name = "btnDapper";
             this.btnDapper.Size = new System.Drawing.Size(75, 23);
             this.btnDapper.TabIndex = 19;
@@ -231,11 +232,22 @@
             this.btnDapper.UseVisualStyleBackColor = true;
             this.btnDapper.Click += new System.EventHandler(this.btnDapper_Click);
             // 
+            // btnMysql
+            // 
+            this.btnMysql.Location = new System.Drawing.Point(181, 307);
+            this.btnMysql.Name = "btnMysql";
+            this.btnMysql.Size = new System.Drawing.Size(75, 23);
+            this.btnMysql.TabIndex = 20;
+            this.btnMysql.Text = "Map Mysql";
+            this.btnMysql.UseVisualStyleBackColor = true;
+            this.btnMysql.Click += new System.EventHandler(this.btnMysql_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(272, 416);
+            this.Controls.Add(this.btnMysql);
             this.Controls.Add(this.btnDapper);
             this.Controls.Add(this.txtNamespace);
             this.Controls.Add(this.label7);
@@ -287,6 +299,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtNamespace;
         private System.Windows.Forms.Button btnDapper;
+        private System.Windows.Forms.Button btnMysql;
     }
 }
 
