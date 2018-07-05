@@ -12,7 +12,7 @@ namespace MappingTool
     {
         public List<dynamic> GetAllDbName()
         {
-            var sql = "SELECT name from sys.databases where name not in('master','tempdb','model','msdb','ReportServer','ReportServerTempDB')";
+            var sql = "SELECT name from sys.databases";
             return MysqlManager<dynamic>.ExecuteDynamic(sql, null);
         }
         public List<string> GetTableNames(string db, string connectionString)

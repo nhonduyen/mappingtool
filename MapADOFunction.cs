@@ -31,7 +31,7 @@ namespace MappingTool
             }
             insert = insert.Remove(insert.Length - 1) + ") VALUES(" + tempInsert.Remove(tempInsert.Length - 1) + ")";
 
-            string insertFunc = "        public virtual int Insert(" + parameter.Remove(parameter.Length - 1) + ")" + System.Environment.NewLine;
+            string insertFunc = "public virtual int Insert(" + parameter.Remove(parameter.Length - 1) + ")" + System.Environment.NewLine;
             insertFunc += "        {" + System.Environment.NewLine;
             insertFunc += "            var sql = \"" + insert.Remove(insert.Length - 1) + ")\";" + System.Environment.NewLine;
             insertFunc += dictionary + System.Environment.NewLine;
@@ -59,7 +59,7 @@ namespace MappingTool
             }
             update = update.Remove(update.Length - 1) + " WHERE ID=@ID\"";
 
-            string UpdateFunc = "        public virtual int Update(" + parameter.Remove(parameter.Length - 2) + ")" + System.Environment.NewLine;
+            string UpdateFunc = "public virtual int Update(" + parameter.Remove(parameter.Length - 2) + ")" + System.Environment.NewLine;
             UpdateFunc += "        {" + System.Environment.NewLine;
             UpdateFunc += "            var sql = \"" + update + ";" + System.Environment.NewLine;
             UpdateFunc += dictionary + System.Environment.NewLine;
@@ -69,87 +69,7 @@ namespace MappingTool
             return UpdateFunc;
         }
 
-        public string MakeUpdate1Column(string table)
-        {
-           
-            var dictionary = "            Dictionary<string, object> param = new Dictionary<string, object>();" + System.Environment.NewLine;
-            dictionary += "            param.Add(@VALUE, VALUE);" + System.Environment.NewLine;
-           
-          
-            string UpdateFunc = "        public virtual int UpdateColumn(int ID, string COLUMN, string VALUE)" + System.Environment.NewLine;
-            UpdateFunc += "        {" + System.Environment.NewLine;
-            UpdateFunc += "            var sql =string.Format(@\"UPDATE "+table+" SET {0}=@VALUE WHERE ID=@ID\", COLUMN);" + System.Environment.NewLine;
-            UpdateFunc += dictionary + System.Environment.NewLine;
-            UpdateFunc += System.Environment.NewLine;
-            UpdateFunc += "            return mgrDataSQL.ExecuteNonQuery(sql, param);" + System.Environment.NewLine;
-            UpdateFunc += "        }" + System.Environment.NewLine;
-            return UpdateFunc;
-        }
-        public string MakeDeleteFunc(string table)
-        {
-            var del = "DELETE FROM " + table ;
-            var dictionary = "            Dictionary<string, object> param = new Dictionary<string, object>();" + System.Environment.NewLine;
-            dictionary += "            param.Add(\"@ID\",ID);";
-            string deleteFunc = "        public virtual int Delete(int ID=0)" + System.Environment.NewLine;
-            deleteFunc += "        {" + System.Environment.NewLine;
-            deleteFunc += "            var sql = \"" + del + " \";" + System.Environment.NewLine;
-            deleteFunc += "            if (ID == 0) return mgrDataSQL.ExecuteNonQuery(sql);" + System.Environment.NewLine;
-            deleteFunc += "            sql += \" WHERE ID=@ID\";" + System.Environment.NewLine;
-            deleteFunc += dictionary + System.Environment.NewLine;
-            deleteFunc += "            return mgrDataSQL.ExecuteNonQuery(sql, param);" + System.Environment.NewLine;
-            deleteFunc += "        }" + System.Environment.NewLine;
-            return deleteFunc;
-
-        }
-
-        public string MakeSelectFunc(string table, string id = "")
-        {
-            var sel = "SELECT * FROM " + table;
-            var dictionary = "            Dictionary<string, object> param = new Dictionary<string, object>();" + System.Environment.NewLine;
-            dictionary += "            param.Add(\"@ID\",ID);";
-            string selectFunc = "        public virtual DataTable Select(int ID=0)" + System.Environment.NewLine;
-            selectFunc += "        {" + System.Environment.NewLine;
-            selectFunc += "            var sql = \"" + sel + " \";" + System.Environment.NewLine;
-            selectFunc += "            if (ID == 0) return mgrDataSQL.ExecuteReader(sql);" + System.Environment.NewLine;
-            selectFunc += "            sql +=\" WHERE ID=@ID\";" + System.Environment.NewLine;
-            selectFunc += System.Environment.NewLine;
-            selectFunc += dictionary + System.Environment.NewLine;
-            selectFunc += "            return mgrDataSQL.ExecuteReader(sql, param);" + System.Environment.NewLine;
-
-            selectFunc += "        }" + System.Environment.NewLine;
-            return selectFunc;
-
-        }
-
-        public string MakeSelectPagingFunc(string table)
-        {
-            var sel = "SELECT * FROM(SELECT ROW_NUMBER() OVER (order by id) AS ROWNUM, * FROM " + table + ") as u  WHERE   RowNum >= @start   AND RowNum < @end ORDER BY RowNum";
-            var dictionary = "            Dictionary<string, object> param = new Dictionary<string, object>();" + System.Environment.NewLine;
-            dictionary += "            param.Add(\"@start\",start);" + System.Environment.NewLine; ;
-            dictionary += "            param.Add(\"@end\",end);" + System.Environment.NewLine; ;
-            string selectFunc = "        public virtual DataTable SelectPaging(int start=0, int end=10)" + System.Environment.NewLine;
-            selectFunc += "        {" + System.Environment.NewLine;
-            selectFunc += "            var sql = \"" + sel + ";\";" + System.Environment.NewLine;
-            selectFunc += System.Environment.NewLine;
-            selectFunc += dictionary + System.Environment.NewLine;
-            selectFunc += "            return mgrDataSQL.ExecuteReader(sql, param);" + System.Environment.NewLine;
-            selectFunc += "        }" + System.Environment.NewLine;
-            return selectFunc;
-
-        }
-        public string MakeCountFunc(string table)
-        {
-            var sel = "SELECT COUNT(1) AS CNT FROM " + table;
-
-            string selectFunc = "        public virtual int GetCount()" + System.Environment.NewLine;
-            selectFunc += "        {" + System.Environment.NewLine;
-            selectFunc += "            var sql = \"" + sel + ";\";" + System.Environment.NewLine;
-
-            selectFunc += "            return Convert.ToInt32(mgrDataSQL.ExecuteScalar(sql));" + System.Environment.NewLine;
-            selectFunc += "        }" + System.Environment.NewLine;
-            return selectFunc;
-
-        }
+      
         public string MakeConstructor(string table, DataTable columns)
         {
             DbHandler db = new DbHandler();
@@ -164,7 +84,7 @@ namespace MappingTool
                 content += "            this." + colName + " = " + colName + ";" + System.Environment.NewLine;
             }
 
-            string UpdateFunc = "        public " + table + "(" + parameter.Remove(parameter.Length - 2) + ")" + System.Environment.NewLine;
+            string UpdateFunc = "public " + table + "(" + parameter.Remove(parameter.Length - 2) + ")" + System.Environment.NewLine;
             UpdateFunc += "        {" + System.Environment.NewLine;
             UpdateFunc += content;
             UpdateFunc += "        }" + System.Environment.NewLine;

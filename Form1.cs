@@ -41,7 +41,7 @@ namespace MappingTool
         private void btnMap_Click(object sender, EventArgs e)
         {
             var location = lblLink.Text;
-            var template = (r1.Checked) ?  "../../Template/Form.cs" : "../../Template/Web.cs";
+            var template = "../../Template/ADO.cs";
             if (string.IsNullOrWhiteSpace(location))
             {
                 MessageBox.Show("Please choose file path");
@@ -58,51 +58,29 @@ namespace MappingTool
             foreach (DataRow row in tables.Rows)
             {
                 var tbname = row["NAME"].ToString();
-                string content = "public class " + tbname + "\n    {" + System.Environment.NewLine;
+             
                 DataTable columns = db.GetColumnsNames(txtDbName.Text, tbname, connectionString);
 
                 var constructor = map.MakeConstructor(tbname, columns);
-                var selFunc = map.MakeSelectFunc(tbname);
-
-                var selPagingFunc = map.MakeSelectPagingFunc(tbname);
-                var selCountFunc = map.MakeCountFunc(tbname);
-                var insertFunc = map.MakeInsert(tbname, columns);
-                var updateFunc = map.MakeUpdateFunc(tbname, columns);
-                var update1 = map.MakeUpdate1Column(tbname);
-                var deleteFunc = map.MakeDeleteFunc(tbname);
+                var insert = map.MakeInsert(tbname, columns);
+                var update = map.MakeUpdateFunc(tbname, columns);
+                var property = "";
                 foreach (DataRow col in columns.Rows)
                 {
                     var colName = col["COLUMN_NAME"].ToString();
                     var type =db.GetType( col["DATA_TYPE"].ToString());
-                    content += "        public " + type + " " + colName + " { get; set; }" + System.Environment.NewLine;
-                   
-                   
-                   
+                    property += "        public " + type + " " + colName + " { get; set; }" + System.Environment.NewLine;
+             
                 }
                
-                string strTemplate = filehandler.ReadFile(template);
+                string strTemplate = filehandler.ReadFile(template); 
                 strTemplate = strTemplate.Replace("MappingTool.Template", txtNamespace.Text );
-                content += System.Environment.NewLine;
-
-                content += constructor + System.Environment.NewLine;
-                content += selFunc + System.Environment.NewLine;
-                
-                content += selPagingFunc + System.Environment.NewLine;
-                content += selCountFunc + System.Environment.NewLine;
-                content += insertFunc + System.Environment.NewLine;
-                content += updateFunc + System.Environment.NewLine;
-                content += update1 + System.Environment.NewLine;
-                content += deleteFunc + System.Environment.NewLine;
-                content += "\r\n    }" + System.Environment.NewLine;
+                strTemplate = strTemplate.Replace("ADO",tbname );
+                strTemplate = strTemplate.Replace("public string ID { get; set; }", property);
+                strTemplate = strTemplate.Replace("void constructor() { }", constructor);
+                strTemplate = strTemplate.Replace("void insertfunc() { }", insert);
+                strTemplate = strTemplate.Replace("void updatefunc() { }", update);
                
-                if (r1.Checked)
-                {
-                    strTemplate = strTemplate.Replace("class Form{}", content );
-                }
-                else
-                {
-                    strTemplate = strTemplate.Replace("class Web{}", content );
-                }
               
                 if (filehandler.FileExist(location + "\\" + tbname+".cs"))
                 {
@@ -126,7 +104,7 @@ namespace MappingTool
         private void btnDapper_Click(object sender, EventArgs e)
         {
             var location = lblLink.Text;
-            var template = (r1.Checked) ? "../../Template/Form.cs" : "../../Template/Web.cs";
+            var template ="../../Template/Dapper.cs";
             if (string.IsNullOrWhiteSpace(location))
             {
                 MessageBox.Show("Please choose file path");
@@ -143,51 +121,26 @@ namespace MappingTool
             foreach (DataRow row in tables.Rows)
             {
                 var tbname = row["NAME"].ToString();
-                string content = "public class " + tbname + "\n    {" + System.Environment.NewLine;
                 DataTable columns = db.GetColumnsNames(txtDbName.Text, tbname, connectionString);
 
                 var constructor = map.MakeConstructor(tbname, columns);
-                var selFunc = map.MakeSelectFunc(tbname);
-
-                var selPagingFunc = map.MakeSelectPagingFunc(tbname);
-                var selCountFunc = map.MakeCountFunc(tbname);
-                var insertFunc = map.MakeInsert(tbname, columns);
-                var updateFunc = map.MakeUpdateFunc(tbname, columns);
-                var deleteFunc = map.MakeDeleteFunc(tbname);
-                var update1 = map.MakeUpdate1Coulumn(tbname);
-
+                var insert = map.MakeInsert(tbname, columns);
+                var update = map.MakeUpdateFunc(tbname, columns);
+                var param = "";
                 foreach (DataRow col in columns.Rows)
                 {
                     var colName = col["COLUMN_NAME"].ToString();
                     var type = db.GetType(col["DATA_TYPE"].ToString());
-                    content += "        public " + type + " " + colName + " { get; set; }" + System.Environment.NewLine;
+                    param += "        public " + type + " " + colName + " { get; set; }" + System.Environment.NewLine;
                 }
 
                 string strTemplate = filehandler.ReadFile(template);
-               
                 strTemplate = strTemplate.Replace("MappingTool.Template", txtNamespace.Text);
-                content += System.Environment.NewLine;
-
-                content += constructor + System.Environment.NewLine;
-                content += selFunc + System.Environment.NewLine;
-
-                content += selPagingFunc + System.Environment.NewLine;
-                content += selCountFunc + System.Environment.NewLine;
-                content += insertFunc + System.Environment.NewLine;
-                content += updateFunc + System.Environment.NewLine;
-                content += update1+ System.Environment.NewLine;
-                content += deleteFunc + System.Environment.NewLine;
-                content += "\r\n    }" + System.Environment.NewLine;
-
-                if (r1.Checked)
-                {
-                    strTemplate = strTemplate.Replace("class Form{}", content);
-                }
-                else
-                {
-                    strTemplate = strTemplate.Replace("class Web{}", content);
-                }
-
+                strTemplate = strTemplate.Replace("Dapper", tbname);
+                strTemplate = strTemplate.Replace("void constructor() { }", constructor);
+                strTemplate = strTemplate.Replace("void insert() { }", insert);
+                strTemplate = strTemplate.Replace("void update() { }", update);
+                strTemplate = strTemplate.Replace("public int ID { get; set; }", param);
                 if (filehandler.FileExist(location + "\\" + tbname + ".cs"))
                 {
                     filehandler.DeleteFile(location + "\\" + tbname + ".cs");
@@ -211,7 +164,7 @@ namespace MappingTool
         private void btnMysql_Click(object sender, EventArgs e)
         {
             var location = lblLink.Text;
-            var template = (r1.Checked) ? "../../Template/Form.cs" : "../../Template/Web.cs";
+            var template ="../../Template/MySql.cs" ;
             if (string.IsNullOrWhiteSpace(location))
             {
                 MessageBox.Show("Please choose file path");
@@ -231,47 +184,27 @@ namespace MappingTool
                 var columns = db.GetColumnsNames(txtDbName.Text, tbname, connectionString);
 
                 var constructor = map.MakeConstructor(tbname, columns);
-                var selFunc = map.MakeSelectFunc(tbname);
-
-                var selPagingFunc = map.MakeSelectPagingMysql(tbname);
-                var selCountFunc = map.MakeCountFunc(tbname);
+               
                 var insertFunc = map.MakeInsert(tbname, columns);
                 var updateFunc = map.MakeUpdateFunc(tbname, columns);
-                var deleteFunc = map.MakeDeleteFunc(tbname);
-                var update1 = map.MakeUpdate1Coulumn(tbname);
-
+                var param = "";
                 foreach (var col in columns)
                 {
 
                     var type = db.GetType(col.DATA_TYPE);
-                    content += "        public " + type + " " + col.COLUMN_NAME + " { get; set; }" + System.Environment.NewLine;
+                    param  += "        public " + type + " " + col.COLUMN_NAME + " { get; set; }" + System.Environment.NewLine;
                 }
 
                 string strTemplate = filehandler.ReadFile(template);
 
                 strTemplate = strTemplate.Replace("MappingTool.Template", txtNamespace.Text);
-                content += System.Environment.NewLine;
-
-                content += constructor + System.Environment.NewLine;
-                content += selFunc + System.Environment.NewLine;
-
-                content += selPagingFunc + System.Environment.NewLine;
-                content += selCountFunc + System.Environment.NewLine;
-                content += insertFunc + System.Environment.NewLine;
-                content += updateFunc + System.Environment.NewLine;
-                content += update1 + System.Environment.NewLine;
-                content += deleteFunc + System.Environment.NewLine;
-                content += "\r\n    }" + System.Environment.NewLine;
-
-                if (r1.Checked)
-                {
-                    strTemplate = strTemplate.Replace("class Form{}", content);
-                }
-                else
-                {
-                    strTemplate = strTemplate.Replace("class Web{}", content);
-                }
-
+                strTemplate = strTemplate.Replace("public int ID { get; set; }", param);
+                strTemplate = strTemplate.Replace("void constructor() { }", constructor );
+                strTemplate = strTemplate.Replace("MySql", tbname);
+                strTemplate = strTemplate.Replace("void insert() { }", insertFunc);
+                strTemplate = strTemplate.Replace("void update() { }", updateFunc);
+                
+              
                 if (filehandler.FileExist(location + "\\" + tbname + ".cs"))
                 {
                     filehandler.DeleteFile(location + "\\" + tbname + ".cs");
