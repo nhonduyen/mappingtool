@@ -42,6 +42,11 @@ public string ID { get; set; }
             return mgrDataSQL.ExecuteReader(sql);
         }
 
+        public void DeleteAll()
+        {
+            mgrDataSQL.ExecuteNonQuery("TRUNCATE TABLE ADO");
+        }
+
         public int GetCount(string query = "")
         {
             if (string.IsNullOrWhiteSpace(query))

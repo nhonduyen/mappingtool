@@ -46,6 +46,11 @@ public int ID { get; set; }
             return DBManager<Dapper>.Execute(sql, new { ID = ID });
         }
 
+        public void DeleteAll()
+        {
+            DBManager<Dapper>.Execute("TRUNCATE TABLE Dapper");
+        }
+
         void insert() { }
         void update() { }
     }
