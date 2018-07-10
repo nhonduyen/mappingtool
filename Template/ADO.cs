@@ -67,6 +67,17 @@ public string ID { get; set; }
 
         }
 
+        public int SpecialCount()
+        {
+            var sql = string.Format(@"
+SELECT SUM (row_count)
+FROM sys.dm_db_partition_stats
+WHERE object_id=OBJECT_ID('ADO')   
+AND (index_id=0 or index_id=1);
+");
+            var result = mgrDataSQL.ExecuteScalar(sql);
+            return Convert.ToInt32(result);
+        }
         void insertfunc() { }
         void updatefunc() { }
     }

@@ -5,7 +5,7 @@ namespace MappingTool.Template
 {
     public class Dapper
     {
-public int ID { get; set; }
+        public int ID { get; set; }
 
         void constructor() { }
 
@@ -49,6 +49,17 @@ public int ID { get; set; }
         public void DeleteAll()
         {
             DBManager<Dapper>.Execute("TRUNCATE TABLE Dapper");
+        }
+        public int SpecialCount()
+        {
+            var sql = string.Format(@"
+SELECT SUM (row_count)
+FROM sys.dm_db_partition_stats
+WHERE object_id=OBJECT_ID('Dapper')   
+AND (index_id=0 or index_id=1);
+");
+            var result = DBManager<Dapper>.ExecuteScalar(sql);
+            return Convert.ToInt32(result);
         }
 
         void insert() { }
